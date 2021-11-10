@@ -10,7 +10,7 @@ if (!tokenResponse)
 if (!tokenResponse.accessToken)
     throw new Error("Token is not set")
 
-const tokenContent = parseJwt(tokenResponse.accessToken)
+const tokenContent = parseJwt(tokenResponse.accessToken, false)
 
 console.log(tokenContent);
 console.log("Yes! It works");

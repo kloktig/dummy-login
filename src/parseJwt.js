@@ -11,8 +11,8 @@ export function parseJwt (rawToken, isk6 = false) {
         headerdata = encoding.b64decode(parts[0], "rawurl", "s");
         payloaddata = encoding.b64decode(parts[1], "rawurl", "s");
     } else{ 
-        headerdata = JSON.parse(atob(parts[0]));
-        payloaddata = JSON.parse(atob(parts[1]));
+        headerdata = atob(parts[0]);
+        payloaddata = atob(parts[1]);
     }    
 
     return{
