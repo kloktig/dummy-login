@@ -1,3 +1,4 @@
+import encoding from "k6/encoding";
 
 export function parseJwt (rawToken, isk6 = false) {
     const parts = rawToken.split(".");
