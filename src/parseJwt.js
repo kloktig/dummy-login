@@ -1,10 +1,24 @@
 
-// https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
-export function parseJwt (token) {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
+export function parseJwt (rawToken, isk6 = false) {
+    const parts = rawToken.split(".");
+    if (parts.length !== 3) {
+        throw `Invalid Jwt: ${raw}`;
+    }
+    
+    let headerdata, payloaddata;
+
+    if (isk6) {
+        headerdata = encoding.b64decode(parts[0], "rawurl", "s");
+        payloaddata = encoding.b64decode(parts[1], "rawurl", "s");
+    } else{ 
+        headerdata = JSON.parse(atob(parts[0]));
+        payloaddata = JSON.parse(atob(parts[1]));
+    }    
+
+    return{
+        raw: rawToken,
+        header: JSON.parse(headerdata),
+        payload: JSON.parse(payloaddata),
+        signature: parts[2]
+    }
 }
