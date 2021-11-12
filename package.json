@@ -2,7 +2,7 @@
   "name": "ndc-2021-workshop-dummy-login",
   "description": "This is used for adding the login to the k6 test",
   "homepage": "https://github.com/kloktig/dummy-login#readme",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "type": "module",
   "files": ["src/**"],
   "main": "index.js",
