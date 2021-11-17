@@ -1,12 +1,29 @@
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik5EQyBVc2VyIiwiaWF0IjoxOTE2MjM5MDIyfQ.GnPSC9CVS79WH-dqkxOQbdnMCScTg9OG_0BUeXVp-GE";
+import axios from "axios";
+import https from "https";
 
 export class LoginClient {
-  login(loginData) {
-    if(loginData['username'] === "NDC_USER" && loginData['password'] === "NDC_PASSWORD") {
-      return {accessToken: accessToken};
-    } else {
-      throw new Error("HTTP 403 Exception")
-    }
+  constructor(host) {
+    if (host.endsWith("/"))
+      throw Error("Add host without '/' in the end");
+    this.host = host;
+  }
+
+  async login(loginData) {
+    const url = `${this.host}/auth/token`;
+
+    let config = {
+      headers: {
+        "Content-Type":"application/json",
+        "accept": "*/*"
+      },
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false
+      })
+    };
+    const response = await axios.post(url, JSON.stringify(loginData), config);
+    if (response.status !== 200)
+      throw new Error(`Login failed with status ${response.status} - ${response.statusText}`);
+    return response.data;
   }
 }
 

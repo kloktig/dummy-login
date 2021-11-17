@@ -1,16 +1,15 @@
 import {LoginClient} from "../src/loginClient.js";
 import {parseJwt} from "../src/parseJwt.js";
 
-const app = new LoginClient()
+const app = new LoginClient("https://localhost:7240")
 
-const tokenResponse = app.login({username: "NDC_USER", password: "NDC_PASSWORD"});
+const token = await app.login({username: "NDC_USER", password: "NDC_PASSWORD"});
 
-if (!tokenResponse)
-    throw new Error("No response")
-if (!tokenResponse.accessToken)
+if (!token)
     throw new Error("Token is not set")
 
-const tokenContent = parseJwt(tokenResponse.accessToken, false)
+const tokenContent = parseJwt(token, false)
 
+console.log("tokenContent:\n");
 console.log(tokenContent);
-console.log("Yes! It works");
+console.log("\nYes! It works");
